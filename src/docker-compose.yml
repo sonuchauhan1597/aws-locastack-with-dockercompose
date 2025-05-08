@@ -1,0 +1,32 @@
+version: '2.1'
+
+services:
+
+  interview-localstack:
+    image: localstack/localstack
+    ports:
+      - "127.0.0.1:4566:4566"            # LocalStack Gateway
+      - "127.0.0.1:4510-4559:4510-4559"  # external services port range
+    environment:
+      - DEFAULT_REGION=ap-southeast-1
+      - SERVICES=sqs,s3,dynmodb
+      - DEBUG=1
+      - DATA_DIR=${DATA_DIR- }
+      - DOCKER_HOST=unix:///var/run/docker.sock
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+  
+  workspace:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - AWS_ACCESS_KEY_ID=test
+      - AWS_DEFAULT_REGION=test
+      - AWS_SECRET_ACCESS_KEY=test
+    links:
+      - interview-localstack
+    stdin_open: true
+    tty: true
+
+
