@@ -34,7 +34,6 @@ To set up the environment and build the tool, follow these steps:
    ```bash
    git clone <repository-url>
    cd <repository-directory>
-````
 
 2. Build and start the containers using Docker Compose:
 
